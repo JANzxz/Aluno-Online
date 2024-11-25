@@ -4,7 +4,7 @@ Projeto da API RESTful Aluno Online da cadeira de Tecnologias para BackEnd
 A API aluno online e um sistema que permite o gerenciamento de alunos, professores, disciplinas e matriculas. Permitindo também criação, atualização, listagem e exclusão de registros, além de cálculos como a média de notas.
 
 
-## Como configurar:
+## Como baixar as dependências:
 
 * Será nescessario acessar o site start.spring.io e baixar as seguintes dependências Spring Web, Spring Data JPA, PostgresSQL Driver, Lombok.
 * Ápós baixa-las ultilize a IDE de sua preferencia e abra com ela a pasta api que foi baixada no site.
