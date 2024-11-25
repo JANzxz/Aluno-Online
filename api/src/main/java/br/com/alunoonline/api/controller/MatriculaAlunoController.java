@@ -1,5 +1,6 @@
 package br.com.alunoonline.api.controller;
 
+import br.com.alunoonline.api.dtos.AtualizarNotasRequest;
 import br.com.alunoonline.api.model.MatriculaAluno;
 import br.com.alunoonline.api.service.MatriculaAlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class MatriculaAlunoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarMatricula(@RequestBody MatriculaAluno matriculaAluno){ //RequestBody porque o JASON vai ser mandado pelo corpo da requisição e vai ser transformado em matriculaAluno java
+    public void criarMatricula(@RequestBody MatriculaAluno matriculaAluno) { //RequestBody porque o JASON vai ser mandado pelo corpo da requisição e vai ser transformado em matriculaAluno java
         matriculaAlunoService.criarMatricula(matriculaAluno);
     }
 
@@ -23,6 +24,14 @@ public class MatriculaAlunoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void trancarMatricula(@PathVariable Long id) {
         matriculaAlunoService.trancarMatricula(id);
+    }
+
+
+    @PatchMapping("/atualiza-notas/{matriculaAlunoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizaNotas(@RequestBody AtualizarNotasRequest atualizarNotasRequest,
+                              @PathVariable("matriculaAlunoId") Long id) { // Nome da variável no PathVariable deve ser igual ao do endpoint
+        matriculaAlunoService.atualizarNotas(id, atualizarNotasRequest);
     }
 
 }

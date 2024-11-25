@@ -1,6 +1,7 @@
 package br.com.alunoonline.api.service;
 
 import br.com.alunoonline.api.dtos.AtualizarNotasRequest;
+import br.com.alunoonline.api.dtos.HistoricoAlunoResponse;
 import br.com.alunoonline.api.enums.MatriculaAlunoStatusEnum;
 import br.com.alunoonline.api.model.MatriculaAluno;
 import br.com.alunoonline.api.repository.MatriculaAlunoRepository;
@@ -9,8 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 public class MatriculaAlunoService {
+
+    public static final double MEDIA_PARA_APROVACAO = 7.0;
 
     @Autowired
     MatriculaAlunoRepository matriculaAlunoRepository;
@@ -41,15 +46,45 @@ public class MatriculaAlunoService {
         matriculaAlunoRepository.save(matriculaAluno); // Aqui salvamos a mudança no banco de dados
     }
 
-    // Aqui e as notas
-    public void atualizarNotas(Long matriculaAlunoAtualizarNotasRequest, AtualizarNotasRequest, atualizarNotasRequest){
-        AtualizarNotasRequest atualizarNotasRequest =
+    public void atualizarNotas(Long matriculaAlunoId, AtualizarNotasRequest atualizarNotasRequest) {
+        // Busca a matrícula do aluno pelo ID
+        MatriculaAluno matriculaAluno =
                 matriculaAlunoRepository.findById(matriculaAlunoId)
                         .orElseThrow(() ->
                                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                                         "Matrícula de Aluno não encontrada"));
 
-    //Verifica se o front ta mandando a nota 1
-    //atualizarNotasRequest.getNota1(): traz a nota que vem do front
+        // Verifica se o front está enviando a nota 1 e atualiza
+        if (atualizarNotasRequest.getNota1() != null) {
+            matriculaAluno.setNota1(atualizarNotasRequest.getNota1()); // Atualiza a nota1 no objeto
+        }
+        // Verifica se o front está enviando a nota 2 e atualiza
+        if (atualizarNotasRequest.getNota2() != null) {
+            matriculaAluno.setNota2(atualizarNotasRequest.getNota2()); // Atualiza a nota2 no objeto
+        }
+        // Salva as alterações no banco de dados
+        matriculaAlunoRepository.save(matriculaAluno);
+    }
+
+    public void calcularMedia(MatriculaAluno matriculaAluno) {
+        Double nota1 = matriculaAluno.getNota1();
+        Double nota2 = matriculaAluno.getNota2();
+
+        if(nota1 != null && nota2 != null){
+            Double media = (nota1 + nota2) / 2;
+
+            //Importante pra apresentação
+            matriculaAluno.setStatus(media >= MEDIA_PARA_APROVACAO ? MatriculaAlunoStatusEnum.MATRICULADO : MatriculaAlunoStatusEnum.REPROVADO);
+        }
+    }
+    public HistoricoAlunoResponse emitirHistorico(Long alunoId){
+        List<MatriculaAluno> matriculasDoAluno = matriculaAlunoRepository.findByAlunoId(alunoId);
+
+        if (matriculasDoAluno.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Esse aluno não possui matriculas");
+        }
+
+        return null;
     }
 }

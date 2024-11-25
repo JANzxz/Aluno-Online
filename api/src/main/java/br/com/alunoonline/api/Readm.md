@@ -6,25 +6,33 @@
 * Configure sua IDE.
 
 
-## O programa possui 4 arquivos principais:
+## O programa possui 6 arquivos principais:
 
-1. Controller (Lida com as requisições HTTP, como adicionar um aluno)
-2. Model (Para modelar os atributos de aluno)
-3. Repository (Para fazer a ponte entre java e o banco de dados)
-4. Service (Cuida da regra de negócios, como regras para criar um aluno)
+1. Controller: Lida com as requisições HTTP, como adicionar um aluno.
+2. Model: Para modelar os atributos de aluno.
+3. Repository: Para fazer a ponte entre java e o banco de dados.
+4. Service: Cuida da regra de negócios, como regras para criar um aluno.
+5. DTOs: Objetos para transferir dados entre as camadas.
+6. Enums: Definições de constantes para facilitar o gerenciamento de status.
 
 
 ## Explicando as anotações ultilizadas:
 
-### Anotações em `AlunoController.java`
+### Anotações usadas no Controller
 
 - **`@RestController`**: Define a classe como um controlador RESTful, permitindo que responda a requisições HTTP e envie dados.
 - **`@RequestMapping("/alunos")`**: Define o caminho base para todos os métodos na classe.
 - **`@PostMapping`**: Mapeia o método para lidar com requisições HTTP POST.
 - **`@ResponseStatus(HttpStatus.CREATED)`**: Define o código de status HTTP retornado quando o método é executado com sucesso.
 - **`@RequestBody`**: Converte o corpo da requisição JSON em um objeto Java.
+- **`@Autowired`**: Permite a injeção automática de dependências pelo Spring.eção automática de dependências pelo Spring.
+- **`@GetMapping`**: Usada para mapear requisições HTTP GET.
+- **`@DeleteMapping`**: Usada para mapear requisições HTTP DELETE.
+- **`@PutMapping`**: Mapeia o método para lidar com requisições HTTP PUT.
+- **`@PathVariable`**: Captura valores específicos da URL.
+- **`@PatchMapping`**: Mapeia requisições HTTP do tipo PATCH.
 
-### Anotações em `Aluno.java`
+### Anotações usadas no Model
 
 - **`@Entity`**: Marca a classe como uma entidade JPA, representando uma tabela no banco de dados.
 - **`@Id`**: Define o campo como a chave primária da entidade.
@@ -32,22 +40,38 @@
 - **`@NoArgsConstructor`**: Gera um construtor sem argumentos.
 - **`@AllArgsConstructor`**: Gera um construtor com todos os parâmetros.
 - **`@Data`**: Gera métodos getters, setters, `equals`, `hashCode`, e `toString`.
+- **`@ManyToOne`**: define um relacionamento entre duas entidades em que muitos registros de uma tabela se relacionam com um registro de outra tabela.
+- **`@JoinColumn`**: Em um relacionamento de muitos-para-um (@ManyToOne) ou um-para-um (@OneToOne), se usa @JoinColumn para indicar a coluna que conecta as duas tabelas.
+- **`@Enumerated`**: Usada para mapear um campo de uma entidade que contém um tipo enumerado (enum) para uma coluna no banco de dados.
 
-### Anotações em `AlunoRepository.java`
+### Anotações usadas no Repository
 
 - **`@Repository`**: Marca a interface como um repositório de dados, facilitando a integração com o banco de dados.
 
-### Anotações em `AlunoService.java`
+### Anotações usadas no Service
 
 - **`@Service`**: Marca a classe como um serviço Spring, contendo a lógica de negócios.
 - **`@Autowired`**: Permite a injeção automática de dependências pelo Spring.eção automática de dependências pelo Spring.
 
-## Banco de dados
+## Funcionalidades Principais:
 
-### Criação do Banco de Dados:
+### Aluno
+- Criar Aluno: Registra um novo aluno no sistema.
+- Listar Alunos: Retorna todos os alunos cadastrados.
+- Buscar Aluno por ID: Retorna os dados de um aluno específico.
+- Atualizar Aluno: Permite alterar informações do aluno.
+- Deletar Aluno: Remove um aluno do sistema.
 
-- Execute o comando CREATE DATABASE aluno_online_turma_3; para criar um novo banco de dados.
+### Professor
+- Criar Professor: Adiciona um novo professor ao sistema.
+- Listar Professores por Disciplina: Associa disciplinas aos professores.
 
-### Visualização de Dados:
+### Matricula
+- Criar Matrícula: Permite que um aluno seja matriculado em uma disciplina.
+- Atualizar Notas: Modifica as notas de um aluno em uma disciplina.
+- Calcular Média: Calcula a média das notas e define o status do aluno (Aprovado/Reprovado).
+- Trancar Matrícula: Altera o status da matrícula para "Trancado".
 
-- Execute o comando SELECT * FROM public.aluno; para ver todos os dados armazenados na tabela aluno.
+### Disciplina
+- Criar Disciplina: Adiciona uma disciplina ao sistema.
+- Listar Disciplinas de um Professor: Filtra disciplinas por professor.
