@@ -100,3 +100,7 @@ Projeto da API RESTful Aluno Online da cadeira de Tecnologias para BackEnd
 - POST /matriculas-alunos: Cria uma nova matrícula.
 - PATCH /matriculas-alunos/trancar/{id}: Tranca uma matrícula.
 - PATCH /matriculas-alunos/atualiza-notas/{id}: Atualiza as notas de um aluno.
+
+
+## Swagger
+O Swagger é uma ferramenta que facilita a documentação e o teste das APIs RESTful. Ele gera automaticamente uma interface gráfica que permite explorar os endpoints disponíveis, visualizar os modelos de dados e testar requisições diretamente no navegador.
