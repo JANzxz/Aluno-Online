@@ -1,6 +1,8 @@
 # Aluno-Online
 Projeto da API RESTful Aluno Online da cadeira de Tecnologias para BackEnd 
 
+A API aluno online e um sistema que permite o gerenciamento de alunos, professores, disciplinas e matriculas. Permitindo também criação, atualização, listagem e exclusão de registros, além de cálculos como a média de notas.
+
 
 ## Como configurar:
 
@@ -104,3 +106,7 @@ Projeto da API RESTful Aluno Online da cadeira de Tecnologias para BackEnd
 
 ## Swagger
 O Swagger é uma ferramenta que facilita a documentação e o teste das APIs RESTful. Ele gera automaticamente uma interface gráfica que permite explorar os endpoints disponíveis, visualizar os modelos de dados e testar requisições diretamente no navegador.
+
+
+## DTO
+DTO significa Data Transfer Object (Objeto de Transferência de Dados). Ele é uma classe usada para transportar dados entre diferentes camadas ou partes de um sistema, geralmente entre o Controller e o Service de uma aplicação.
