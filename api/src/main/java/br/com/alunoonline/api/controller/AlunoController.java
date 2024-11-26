@@ -4,7 +4,6 @@ package br.com.alunoonline.api.controller;
 
 import br.com.alunoonline.api.model.Aluno;
 import br.com.alunoonline.api.service.AlunoService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +45,7 @@ public class AlunoController {
         alunoService.deleteAlunoPorId(id); // Aqui so e possivel por conta da injeção do service la encima
     }
 
-    @PutMapping ("/id")
+    @PutMapping ("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizarAlunoPorId(@PathVariable long id, Aluno aluno) {
         alunoService.atualizarAlunoPorId(id, aluno);

@@ -1,6 +1,7 @@
 package br.com.alunoonline.api.controller;
 
 import br.com.alunoonline.api.dtos.AtualizarNotasRequest;
+import br.com.alunoonline.api.dtos.HistoricoAlunoResponse;
 import br.com.alunoonline.api.model.MatriculaAluno;
 import br.com.alunoonline.api.service.MatriculaAlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class MatriculaAlunoController {
     public void atualizaNotas(@RequestBody AtualizarNotasRequest atualizarNotasRequest,
                               @PathVariable("matriculaAlunoId") Long id) { // Nome da variável no PathVariable deve ser igual ao do endpoint
         matriculaAlunoService.atualizarNotas(id, atualizarNotasRequest);
+    }
+
+    @GetMapping("/emitir-historico/{alunoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public HistoricoAlunoResponse emitirHistorico(@PathVariable Long alunoId){
+        return matriculaAlunoService.emitirHistorico(alunoId);
     }
 
 }

@@ -32,14 +32,15 @@ public class MatriculaAlunoService {
 // E aqui que o aluno vai trancar a matricula
 
     public void trancarMatricula(Long matriculaAlunoId) {
+        // Busca a matrícula no repositório pelo ID fornecido
         MatriculaAluno matriculaAluno =
                 matriculaAlunoRepository.findById(matriculaAlunoId)
-                        .orElseThrow(() ->
+                        .orElseThrow(() -> // Lança exceção se a matrícula não for encontrada
                                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                                         "Matrícula de Aluno não encontrada")); // Esse e complicado mas entendi que tudo isso e para caso procure uma matricula que nao existe ai da o erro 404
 
         if (!MatriculaAlunoStatusEnum.MATRICULADO.equals(matriculaAluno.getStatus())) { // Verificar se o status da matrícula é "MATRICULADO"
-            // Lançar erro se o status não for "MATRICULADO"
+            // Lançar erro 400 se o status não for "MATRICULADO"
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Só é possível trancar uma matrícula com o status MATRICULADO");
         }
@@ -53,7 +54,7 @@ public class MatriculaAlunoService {
         MatriculaAluno matriculaAluno =
                 matriculaAlunoRepository.findById(matriculaAlunoId)
                         .orElseThrow(() ->
-                                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                new ResponseStatusException(HttpStatus.NOT_FOUND, // Retorna erro 404
                                         "Matrícula de Aluno não encontrada"));
 
         // Verifica se o front está enviando a nota 1 e atualiza
@@ -72,13 +73,14 @@ public class MatriculaAlunoService {
         Double nota1 = matriculaAluno.getNota1();
         Double nota2 = matriculaAluno.getNota2();
 
-        if(nota1 != null && nota2 != null){
+        if (nota1 != null && nota2 != null) {
             Double media = (nota1 + nota2) / 2;
 
             //Importante pra apresentação
             matriculaAluno.setStatus(media >= MEDIA_PARA_APROVACAO ? MatriculaAlunoStatusEnum.MATRICULADO : MatriculaAlunoStatusEnum.REPROVADO);
         }
     }
+
     public HistoricoAlunoResponse emitirHistorico(Long alunoId) {
         List<MatriculaAluno> matriculasDoAluno = matriculaAlunoRepository.findByAlunoId(alunoId);
 
@@ -88,8 +90,8 @@ public class MatriculaAlunoService {
         }
 
         // Criar o objeto de resposta para o histórico do aluno
-        HistoricoAlunoResponse historicoAluno = new HistoricoAlunoResponse();
-        historicoAluno.setNomeAluno(matriculasDoAluno.get(0).getAluno().getNome());
+        HistoricoAlunoResponse historicoAluno = new HistoricoAlunoResponse(); // instanciando o ddos
+        historicoAluno.setNomeAluno(matriculasDoAluno.get(0).getAluno().getNome()); // Ele ta buscando o nome do aluno atraves dos get
         historicoAluno.setCpfAluno(matriculasDoAluno.get(0).getAluno().getCpf());
         historicoAluno.setEmailAluno(matriculasDoAluno.get(0).getAluno().getEmail());
 
@@ -104,14 +106,23 @@ public class MatriculaAlunoService {
             disciplinaAlunoResponses.setNota1(matriculaAluno.getNota1());
             disciplinaAlunoResponses.setNota2(matriculaAluno.getNota2());
 
-            // Adicionar o objeto à lista
+            // Calcular a média
+            Double media = null;
+            if (matriculaAluno.getNota1() != null && matriculaAluno.getNota2() != null) {
+                media = (matriculaAluno.getNota1() + matriculaAluno.getNota2()) / 2.0;
+            }
+            disciplinaAlunoResponses.setMedia(media);
+
+            // Definir o status
+            disciplinaAlunoResponses.setStatus(matriculaAluno.getStatus());
+
+            // Adicionar à lista
             disciplinaList.add(disciplinaAlunoResponses);
         }
 
-        // Configurar a lista de disciplinas no histórico
-        historicoAluno.setDisciplinas(disciplinaList);
-
-        // Retornar o histórico preenchido
+// Definir a lista de disciplinas no histórico
+        historicoAluno.setDisciplinasAlunoResponses(disciplinaList);
         return historicoAluno;
     }
+
 }

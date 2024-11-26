@@ -1,5 +1,6 @@
 package br.com.alunoonline.api.dtos;
 
+import br.com.alunoonline.api.enums.MatriculaAlunoStatusEnum;
 import br.com.alunoonline.api.model.Professor;
 import lombok.Data;
 
@@ -7,10 +8,12 @@ import java.util.List;
 
 @Data
 public class DisciplinaAlunoResponse {
-    private String nomeAluno;
-    private String emailAluno;
-    private String cpfAluno;
-    private List<DisciplinaAlunoResponse> disciplinaAlunoResponse;// Com isso aqui modelado, não preciso ta chamando as outras classes direto
+    private String nomeDisciplina;
+    private String emailProfessor;
+    private Double nota1;
+    private Double nota2;
+    private Double media;
+    private MatriculaAlunoStatusEnum status;
 
     public void setNomeDisciplina(String nome) {
     }
@@ -22,5 +25,11 @@ public class DisciplinaAlunoResponse {
     }
 
     public void setNota2(Double nota2) {
+    }
+
+    public void setMedia(Object o) {
+    }
+
+    public void setStatus(MatriculaAlunoStatusEnum status) {
     }
 }

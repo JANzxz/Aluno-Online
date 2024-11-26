@@ -6,11 +6,10 @@ import java.util.List;
 
 @Data
 public class HistoricoAlunoResponse {
-    private String nomeDisciplina;
-    private String nomeProfessor;
-    private Double nota1;
-    private Double nota2;
-    private Double media;
+    private String nomeAluno;
+    private String emailAluno;
+    private String cpfAluno;
+    private List<DisciplinaAlunoResponse> disciplinasAlunoResponses; // Com isso aqui modelado, não preciso ta chamando as outras classes direto
 
     public void setNomeAluno(String nome) {
     }
