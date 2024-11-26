@@ -11,6 +11,16 @@ A API aluno online e um sistema que permite o gerenciamento de alunos, professor
 * Configure sua IDE.
 
 
+## Ferramentas e Tecnologias Usadas
+
+- Linguagem **Java** 17 com Framework *Spring*.
+- Gerenciador de dependências com **Maven**.
+- Banco de Dados **PostgreSQL**.
+- Ferramenta de Teste de *Endpoint* **Insomnia**.
+- IDE **Intellij IDEA**
+- Software Gerenciamento de Bancos **Dbeaver**.
+  
+
 ## O programa possui 6 arquivos principais:
 
 1. Controller: Lida com as requisições HTTP, como adicionar um aluno.
