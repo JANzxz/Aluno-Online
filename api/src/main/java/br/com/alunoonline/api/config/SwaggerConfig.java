@@ -8,7 +8,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
     @Configuration
-    public class SweggerConfig {
+    public class SwaggerConfig {
 
         /*
            Vai ficar disponível a doc swagger na url: http://localhost:8080/swagger-ui/index.html

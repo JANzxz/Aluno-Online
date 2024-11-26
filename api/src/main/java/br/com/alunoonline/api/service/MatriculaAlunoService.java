@@ -1,6 +1,7 @@
 package br.com.alunoonline.api.service;
 
 import br.com.alunoonline.api.dtos.AtualizarNotasRequest;
+import br.com.alunoonline.api.dtos.DisciplinaAlunoResponse;
 import br.com.alunoonline.api.dtos.HistoricoAlunoResponse;
 import br.com.alunoonline.api.enums.MatriculaAlunoStatusEnum;
 import br.com.alunoonline.api.model.MatriculaAluno;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -77,14 +79,39 @@ public class MatriculaAlunoService {
             matriculaAluno.setStatus(media >= MEDIA_PARA_APROVACAO ? MatriculaAlunoStatusEnum.MATRICULADO : MatriculaAlunoStatusEnum.REPROVADO);
         }
     }
-    public HistoricoAlunoResponse emitirHistorico(Long alunoId){
+    public HistoricoAlunoResponse emitirHistorico(Long alunoId) {
         List<MatriculaAluno> matriculasDoAluno = matriculaAlunoRepository.findByAlunoId(alunoId);
 
-        if (matriculasDoAluno.isEmpty()){
+        if (matriculasDoAluno.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Esse aluno não possui matriculas");
+                    "Esse aluno não possui matrículas");
         }
 
-        return null;
+        // Criar o objeto de resposta para o histórico do aluno
+        HistoricoAlunoResponse historicoAluno = new HistoricoAlunoResponse();
+        historicoAluno.setNomeAluno(matriculasDoAluno.get(0).getAluno().getNome());
+        historicoAluno.setCpfAluno(matriculasDoAluno.get(0).getAluno().getCpf());
+        historicoAluno.setEmailAluno(matriculasDoAluno.get(0).getAluno().getEmail());
+
+        // Criar a lista para armazenar as disciplinas do aluno
+        List<DisciplinaAlunoResponse> disciplinaList = new ArrayList<>();
+
+        // Iterar pelas matrículas e adicionar as disciplinas na lista
+        for (MatriculaAluno matriculaAluno : matriculasDoAluno) {
+            DisciplinaAlunoResponse disciplinaAlunoResponses = new DisciplinaAlunoResponse();
+            disciplinaAlunoResponses.setNomeDisciplina(matriculaAluno.getDisciplina().getNome());
+            disciplinaAlunoResponses.setNomeProfessor(matriculaAluno.getDisciplina().getProfessor());
+            disciplinaAlunoResponses.setNota1(matriculaAluno.getNota1());
+            disciplinaAlunoResponses.setNota2(matriculaAluno.getNota2());
+
+            // Adicionar o objeto à lista
+            disciplinaList.add(disciplinaAlunoResponses);
+        }
+
+        // Configurar a lista de disciplinas no histórico
+        historicoAluno.setDisciplinas(disciplinaList);
+
+        // Retornar o histórico preenchido
+        return historicoAluno;
     }
 }
